@@ -15,7 +15,7 @@
 
 ## 2. RPM에서 GPG가 작동하는 원리 (Signature & Verification)
 
-RPM 패키지 구조에서 **GPG Signature**는 일종의 **디지털 봉인**입니다. SRE 관점에서 아래 과정을 이해하는 게 중요합니다.
+RPM 패키지 구조에서 **GPG Signature**는 일종의 **"디지털 봉인"**입니다. SRE 관점에서 아래 과정을 이해하는 게 중요합니다.
 
 ### Step 1: Signing (배포자 측)
 
@@ -59,15 +59,15 @@ Running transaction
 ## 3. 왜 GPG를 알아야 하나요? (SRE 실무 포인트)
 
 - **Supply Chain Security**: 최근 오픈소스 패키지 오염 사고가 많습니다. GPG 서명이 없는 패키지를 서버에 설치하는 건 출처 모를 음식을 그냥 먹는 것과 같습니다.
-- **Custom Repository 운영**: 나중에 회사에서 사내 전용 **DNF Repository**를 운영하게 되면, 직접 만든 패키지에 **Private Key**로 서명을 하고 서버들에 **Public Key**를 배포해야 합니다. 이 메커니즘을 모르면 배포 자동화가 불가능합니다.
+- **Custom Repository 운영**: 동현님이 나중에 회사에서 사내 전용 **DNF Repository**를 운영하게 되면, 직접 만든 패키지에 **Private Key**로 서명을 하고 서버들에 **Public Key**를 배포해야 합니다. 이 메커니즘을 모르면 배포 자동화가 불가능하죠.
 
 ---
 
 ## 4. GPG 키 확인하기
 
-터미널에서 아래 명령어를 실행해 보시기 바랍니다. 록키 리눅스가 신뢰하는 **Public Keys** 목록이 표시됩니다.
+지금 터미널에서 아래 명령어를 쳐보세요. 록키 리눅스가 신뢰하는 **Public Keys** 목록이 나옵니다.
 
-`Rocky Linux 10 (official key)`와 같은 항목이 보일 수 있습니다. 해당 키가 등록되어 있어야 `dnf install` 시 에러 없이 설치가 가능합니다.
+아마 `Rocky Linux 10 (official key)` 같은 내용이 보일 겁니다. 이게 있어야만 동현님이 아까 `dnf install`을 할 때 에러 없이 설치가 된 거예요.
 
 ```bash
 mr8356@mr8356:~$ sudo rpm -q gpg-pubkey --qf '%{name}-%{version}-%{release} --> %{summary}\n'
@@ -326,7 +326,7 @@ mr8356@mr8356:~/rpmbuild$ rpm -Kv ~/rpmbuild/RPMS/$(arch)/cello-1.0-1.el10.$(arc
 
 ## Step 3: 시스템에 저장소 등록 (DNF Configuration)
 
-리눅스 시스템에 사용자 저장소 경로를 등록해야 합니다.
+이제 리눅스 시스템한테 "야, 내가 만든 저장소 여기 있으니까 패키지 찾을 때 참고해"라고 알려줘야 해.
 
 ### /etc/yum.repos.d/my-local.repo 파일 작성
 
@@ -345,7 +345,7 @@ EOF
 
 ## Step 4: 드디어 활용! (Installation)
 
-사용자가 만든 `cello` 패키지를 인터넷이 되지 않는 환경에서도 설치할 수 있습니다.
+이제 동현이가 만든 `cello`를 인터넷이 안 되는 환경이라도 어디서든 설치할 수 있어.
 
 ### dnf로 설치하기
 
@@ -413,7 +413,7 @@ Hello World from my first patch!
 
 ### 1. RPM
 
-**RPM**은 소프트웨어의 **포장 단위**이자 이를 처리하는 최하위 계층의 도구입니다.
+**RPM**은 소프트웨어의 **'포장 단위'**이자 이를 처리하는 최하위 계층의 도구입니다.
 
 - **패키지 단위(Artifact):** 실제 설치될 파일 본체, 설치 경로, 파일 권한 및 소유권 정보가 담긴 `.rpm` 파일 그 자체를 의미합니다.
 - **제한적 기능:** `rpm -ivh` 명령어로 설치를 시도할 때, 필요한 의존 패키지가 없다면 "의존성 오류" 메시지만 출력하고 작업을 중단합니다. 스스로 외부에서 파일을 찾아오는 기능이 없습니다.
@@ -421,7 +421,7 @@ Hello World from my first patch!
 
 ### 2. DNF
 
-**DNF**는 RPM 상단에서 실행되며, **의존성(Dependency)**과 **저장소(Repository)**를 지능적으로 관리하는 도구입니다.
+**DNF**는 RPM 상단에서 실행되며, **'의존성(Dependency)'**과 **'저장소(Repository)'**를 지능적으로 관리하는 도구입니다.
 
 - **의존성 자동 해결:** 설치하려는 패키지에 필요한 추가 부품(의존성)이 있을 경우, 등록된 저장소에서 해당 파일들을 자동으로 찾아 함께 설치합니다.
 - **저장소 관리(Metadata):** `/etc/yum.repos.d/`에 등록된 설정 파일을 참조하여 로컬 디렉토리나 원격 서버(HTTP/HTTPS)에서 패키지를 수소문하고 관리합니다.
