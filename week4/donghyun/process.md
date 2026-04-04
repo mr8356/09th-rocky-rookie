@@ -710,4 +710,4 @@ tuned-adm recommend
 | `network-latency` | Network Latency 최소화 | TCP Buffer 조정, IRQ Balancing |
 
 > **AWS EC2 연결:** EC2 Instance에서는 `virtual-guest` Profile이 권장됩니다. `tuned-adm recommend`를 실행하면 가상화 환경을 자동 감지하여 이 Profile을 추천합니다.
->
+
