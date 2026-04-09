@@ -198,3 +198,7 @@ ex) ext4, xfs
 <pre>df -h</pre>
 4. 언마운트 (사용 해제)
 <pre>sudo umount /mnt/data</pre>
+
+![alt text](image-5.png)
+<pre>/dev/mapper/my_vg-my_lv  4.9G  ...  /mnt/data</pre>
+=> 내가 만든 LV(my_lv)가 `/mnt/data`에 연결되어 있다
