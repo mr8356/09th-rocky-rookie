@@ -589,13 +589,7 @@ sudo setsebool -P httpd_can_network_connect on
 
 ---
 
-## 11. 배운 점 / 느낀 점
-
-- (실습 후 작성)
-
----
-
-## 12. 참고 자료
+## 11. 참고 자료
 
 - [Red Hat - Configuring and Managing Networking](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/)
 - [Red Hat - Using and Configuring firewalld](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/securing_networks/using-and-configuring-firewalld_securing-networks)
